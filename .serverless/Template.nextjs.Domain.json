@@ -1,0 +1,13 @@
+{
+  "region": "us-east-1",
+  "privateZone": false,
+  "domain": "kodaps.fr",
+  "subdomains": [
+    {
+      "domain": "www.kodaps.fr",
+      "distributionId": "E26X7NMAZKL2CI",
+      "url": "https://d2d8flevk9ocym.cloudfront.net",
+      "type": "awsCloudFront"
+    }
+  ]
+}

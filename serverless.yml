@@ -1,0 +1,23 @@
+org: kodaps
+app: fr-website
+name: nextjs
+# serverless.yml
+# cf https://github.com/serverless-nextjs/serverless-next.js
+stage: prod
+
+nextjs:
+  component: "@sls-next/serverless-component@3.1.0" # it is recommended you pin the latest stable version of serverless-next.js
+  inputs:
+    name: ${org}-${app}-${stage} # Results in "acme-prod-ecommerce-rest-api"
+    domain: ["www", "kodaps.fr"] # sub-domain defaults to www
+    bucketRegion: us-east-1
+    bucketName: com-kodaps-fr-lambda
+    # useServerlessTraceTarget: true
+    # origins:  http:/com-ecotree-hetm-lambda.s3.eu-west-3.amazonaws.com
+    build:
+      env:
+        NODE_ENV: production
+        MAINTENANCE_MODE: false
+        AWS_PROFILE: default
+
+

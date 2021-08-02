@@ -1,0 +1,6 @@
+{
+  "name": "com-kodaps-fr-lambda",
+  "region": "us-east-1",
+  "accelerated": true,
+  "url": "https://com-kodaps-fr-lambda.s3.amazonaws.com"
+}

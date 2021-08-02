@@ -1,0 +1,256 @@
+<!DOCTYPE html><html><head><link rel="stylesheet" data-href="https://fonts.googleapis.com/css2?family=Poppins&amp;family=Noto+Sans&amp;display=swap"/><script async="" src="https://www.googletagmanager.com/gtag/js?id=G-SHZ4CYZVX3"></script><script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag() { 
+            window.dataLayer.push(arguments);
+          }
+          gtag('js', new Date());
+          gtag('config', 'G-SHZ4CYZVX3');</script><meta name="viewport" content="width=device-width"/><meta charSet="utf-8"/><title> Tuto Next.JS + Tailwind : créer un blog </title><meta name="next-head-count" content="3"/><link rel="preload" href="/_next/static/css/c029943e6b40abfd25d6.css" as="style"/><link rel="stylesheet" href="/_next/static/css/c029943e6b40abfd25d6.css" data-n-g=""/><noscript data-n-css=""></noscript><link rel="preload" href="/_next/static/chunks/webpack-4639e6317c041bf9c5d6.js" as="script"/><link rel="preload" href="/_next/static/chunks/framework-61a2b52ccabc94aeb28a.js" as="script"/><link rel="preload" href="/_next/static/chunks/597-65afaab61dfaa9c5bb4f.js" as="script"/><link rel="preload" href="/_next/static/chunks/778-0412e99d908278ef4e9a.js" as="script"/><link rel="preload" href="/_next/static/chunks/main-9ca82ec4d4aca520c43d.js" as="script"/><link rel="preload" href="/_next/static/chunks/pages/_app-4011f388381f4f6185a3.js" as="script"/><link rel="preload" href="/_next/static/chunks/612-470bcdda2e89b4577197.js" as="script"/><link rel="preload" href="/_next/static/chunks/pages/blog/%5Bid%5D-6b719249f0317348990a.js" as="script"/><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins&family=Noto+Sans&display=swap"/></head><body><div id="__next"><div class="flex py-2 rfs-px-16 bg-white shadow-md w-screen justify-center"><div class="flex w-full justify-between max-w-2xl"><div class="flex w-24 "><img class="w-full  my-2" src="/logo2.png"/></div><div class="flex flex-row justify-items-end "><nav class="px-3 my-auto">Je suis...</nav><nav class="px-3 my-auto"><a href="/blog">Blog</a></nav><nav class="px-3 my-auto"><a href="/cours">Newsletter</a></nav><nav class="px-3 my-auto"><a href="/contact">Contact</a></nav></div></div></div><main><article class="prose lg:prose-xl mx-auto mt-12 font-display"><h1>Tuto Next.JS + Tailwind : créer un blog</h1><div style="position:relative;padding-bottom:56.25%;height:0;margin-bottom:2rem;overflow:hidden"><img src="/blog/blog.jpg.lqip.jpg" style="position:absolute;width:100%;filter:blur(10px);z-index:10;top:50%;left:50%;transform:translate(-50%, -50%) scale(1.2);transition-duration:500ms;transition-property:opacity;transition-timing-function:cubic-bezier(0.4, 0, 1, 1);margin-top:0;margin-bottom:0;opacity:100"/><img style="position:absolute;width:100%;top:0;left:0;z-index:0;margin-top:0;margin-bottom:0"/></div><div class="relative block pt-8 font-body"><p>Je commence par installer Next.JS.</p>
+<pre><code class="language-cli">npx create-next-app nextjs-blog
+</code></pre>
+<p>Je crée un fichier tsconfig.json pour indiquer qu&#x27;on veut etre sous Typescript (et j&#x27;installe directement Typescript)</p>
+<pre><code class="language-cli">touch tsconfig.json
+yarn add --dev typescript @types/react
+</code></pre>
+<p>Ensuite c&#x27;est parti pour installer et initialiser Tailwind :</p>
+<pre><code class="language-cli">npm install -D tailwindcss@latest postcss@latest autoprefixer@latest
+npx tailwindcss init -p
+</code></pre>
+<p>Puis j&#x27;édite le fichier globals.css pour inclure les fichiers de style de Tailwind.</p>
+<pre><code class="language-css">/* ./styles/globals.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+</code></pre>
+<p>J&#x27;aime bien changer les fichier index.js et app.js en .tsx (mais ça ne change pas grand chose)</p>
+<p>Maintenant que la base est posée, posons les bases de notre blog.</p>
+<p>La première étape consiste à définir le type de l&#x27;article de blog, au sens Typescript.
+Pour cela je crée un dossier shared/, à la racine, dans lequel je met un fichier types.d.ts qui va servir à contenir les différents types. Je vais supposer qu&#x27;on veut charger d&#x27;autres types de données que juste des articles de blog (mais je ne sais pas encore quoi à ce stade, donc j&#x27;en fais peut etre un peu trop). Néanmoins je crée un type de base pour mon contenu, que je spécialise pour l&#x27;article de blog.</p>
+<pre><code class="language-ts">interface item {
+  id: string|number;
+  content: string;
+};
+
+interface BlogPost extends item {
+  title: string;
+}
+</code></pre>
+<p>A présent je crée la page d&#x27;accueil du blog, en créant un fichier index.tsx, dans un dossier blog/ que je crée dans /pages. Ce fichier va servir à lister tous les articles de blog (quand il y en aura !)</p>
+<pre><code class="language-tsx">// pages/blog/index.tsx
+
+interface BlogPagesProps {
+  blogs: Array&lt;BlogPost&gt;
+}
+
+const BlogPages:React.FC&lt;BlogPagesProps&gt; = ({blog}) =&gt; {
+  return &lt;&gt;Blog Posts&lt;/&gt;
+}
+export default BlogPages;
+</code></pre>
+<p>A présent, allons chercher le contenu que nous allons lister. Pour ça, je commence par créer un dossier content, dans le quel je mets pour le moment un dossier blog/ (une fois de plus, ça suppose que j&#x27;ai d&#x27;autre contenu)</p>
+<p>Comment est-ce que ça fonctionne ? Dans une page on peut définir une fonction getStaticProps. Cette fonction sert pour le rendu côté serveur. Elle sert à récupérer toutes les données statiques qui utiles pour rendre la page. Typiquement si on voulait faire un appel à une base de données pour lister le contenu pertinent, c&#x27;est ici qu&#x27;on le ferait. Dans notre cas, nous allons lister tous les fichiers markdown (en .md) qui sont dans le dossier content/blog, et c&#x27;est ça qui nous servira de contenu.</p>
+<p>Le nom de fichier servira d&#x27;identifiant (de champ id), mais on veut pouvoir aussi définir un titre, qui servira dans la liste sur l&#x27;accueil du blog.</p>
+<p>Un petit détail qui est sympa avec Markdown : on peut définir des (méta)données en entête, et les lire. Ca s&#x27;appelle le <em>front matter</em>. C&#x27;est typiquement avec ça qu&#x27;on va pouvoir dire qui est l&#x27;auteur, ou quelle est l&#x27;image qu&#x27;on veut mettre en avant.</p>
+<p>Une lib existe pour les lire : gray-matter</p>
+<p>Ajouter gray-matter : yarn add gray-matter</p>
+<p>Créer les fonction de récupération des données :</p>
+<p>On va créer une fonction de récupération générique, qui lit un dossier et qui retourne bah.. un type de contenu.</p>
+<p>On va commencer par lister et lire tous les fichiers md qui sont dans un dossier donné:</p>
+<pre><code class="language-ts">async function _getAllData&lt;T extends item&gt;(directory: string): Promise&lt;Array&lt;T&gt;&gt; {
+  // Get file names under folder
+  const fileNames = fs.readdirSync(directory);
+  return await Promise.all (fileNames.map(async fileName =&gt; {
+    // Remove &quot;.md&quot; from file name to get id
+    const id = fileName.replace(/\.md$/, &#x27;&#x27;);
+
+    // Read markdown file as string
+    const fullPath = path.join(directory, fileName);
+    const fileContents = fs.readFileSync(fullPath, &#x27;utf8&#x27;);
+
+    // Use gray-matter to parse the post metadata section
+    const matterResult = matter(fileContents);
+
+    let content = matterResult.content;
+
+    return {
+      id,
+      ...matterResult.data,
+      content,
+    } as unknown as T;
+  }));
+
+}
+</code></pre>
+<p>Alors je crée une fonction &quot;factory&quot;, qui me fabrique la fonction en fonction du répertoire injecté :</p>
+<pre><code class="language-tsx">export function makeGetters&lt;T extends item&gt; (directory: string) {
+
+  return {
+    getAllData: async () =&gt; _getAllData&lt;T&gt;(directory),
+  };
+}
+</code></pre>
+<p>En suite on crée la version spécifique pour le blog :</p>
+<p>On crée un fichier /shares/blog.ts tout simple</p>
+<pre><code class="language-ts">import path from &#x27;path&#x27;;
+import { makeGetters } from &#x27;./content&#x27;;
+
+const directory = path.join(process.cwd(), &#x27;content/blog&#x27;);
+
+export default makeGetters&lt;BlogPost&gt;(directory);
+</code></pre>
+<p>Maintenant on référence cette page dans l&#x27;index du blog</p>
+<pre><code class="language-tsx">import BlogData from &#x27;../../shared/blog&#x27;;
+
+export async function getStaticProps() {
+  const blogs = await BlogData.getAllData();
+
+  return {
+    props: {
+      blogs,
+    }
+  };
+}
+
+interface BlogPagesProps {
+  blogs: Array&lt;BlogPost&gt;
+}
+
+const BlogPages:React.FC&lt;BlogPagesProps&gt; = ({blogs}) =&gt; {
+  return &lt;&gt;&lt;h1&gt;Blog Posts&lt;/h1&gt;
+    {blogs.map((itm) =&gt; {
+      return &lt;&gt;&lt;a key={itm.id}&gt;{itm.title}&lt;/a&gt;&lt;br/&gt;&lt;/&gt;
+    })}
+  
+  &lt;/&gt;
+}
+
+
+</code></pre>
+<p>Et on teste : wundershön</p>
+<p>Et du coup maintenant on va aller créer la page qui va servir à faire les articles de blog eux mêmes</p>
+<p>Pour ça on crée un fichier [id].tsx dans le dossier pages/blog</p>
+<p>En suite on fait la fonction qui récupère les données statiques en fonction de l&#x27;id</p>
+<p>Autrement dit cette fois ci au lieu de récupérer tous les fichiers on récupère le seul fichier dont l&#x27;id est dans le slug, le chemin.</p>
+<pre><code class="language-ts">async function _getItemData&lt;T extends item&gt; (directory: string, id: string, extended?: boolean): Promise&lt;T&gt; {
+
+  const fullPath = path.join(directory, `${id}.md`);
+  const fileContents = fs.readFileSync(fullPath, &#x27;utf8&#x27;);
+
+  // Use gray-matter to parse the post metadata section
+  const matterResult = matter(fileContents);
+  let content = matterResult.content;
+
+  return {
+    id,
+    ...matterResult.data,
+    content,
+  } as unknown as T;
+}
+
+/* *** */
+
+export function makeGetters&lt;T extends item&gt; (directory: string) {
+
+  return {
+    getItemData: async (id: string) =&gt; _getItemData&lt;T&gt;(directory, id),
+    getAllData: async () =&gt; _getAllData&lt;T&gt;(directory),
+  };
+
+}
+</code></pre>
+<p>Ensuite on définit dans types un paramètre</p>
+<pre><code class="language-ts">interface StaticRouteProps {
+  params: {
+    id: string;
+  };
+}
+</code></pre>
+<p>Et on crée le get static props de la page :</p>
+<pre><code class="language-tsx">
+interface PageProps {
+  data: BlogPost;
+}
+
+export async function getStaticProps({params}:StaticRouteProps) {
+  const data = await BlogData.getItemData(params.id);
+  return {
+    props: {
+      data,
+    }
+  };
+}
+
+</code></pre>
+<p>Ici il y a une petite particularité. Dans la mesure ou c&#x27;est un chemin dynamique, on a besoin de savoir quels sont tous les contenus qu&#x27;il faut générer. Pour ça on a une fontion &quot;getStaticPaths&quot; qui en gros liste tous les contenus</p>
+<p>On retourne du coup dans content :</p>
+<pre><code class="language-ts">const _getAllIds = (directory: string) =&gt; {
+  const fileNames = fs.readdirSync(directory);
+
+  return fileNames.map(fileName =&gt; {
+    return {
+      params: {
+        id: fileName.replace(/\.md$/, &#x27;&#x27;)
+      }
+    };
+  });
+};
+
+/***/
+
+export function makeGetters&lt;T extends item&gt; (directory: string) {
+
+  return {
+    getAllIds: () =&gt; _getAllIds(directory),
+    getItemData: async (id: string) =&gt; _getItemData&lt;T&gt;(directory, id),
+    getAllData: async () =&gt; _getAllData&lt;T&gt;(directory),
+  };
+
+}
+</code></pre>
+<p>A présent dans le blog on définit la fonction getStaticPaths</p>
+<pre><code class="language-ts">export async function getStaticPaths() {
+  const paths = BlogData.getAllIds();
+  return {
+    paths,
+    fallback: false
+  };
+}
+</code></pre>
+<p>A présent tout est prêt pour faire la page :</p>
+<p>On commence par importer Head, tout en haut :</p>
+<pre><code class="language-ts">import Head from &#x27;next/head&#x27;;
+</code></pre>
+<p>Puis on crée la fin de la page :</p>
+<pre><code class="language-tsx">interface BlogPageProps {
+  data: BlogPost;
+}
+
+const BlogPage: React.FC&lt;BlogPageProps&gt; = ({data}) =&gt; {
+
+  return &lt;&gt;
+    &lt;Head&gt; &lt;title&gt; {data.title} &lt;/title&gt;&lt;/Head&gt;
+    &lt;main&gt;
+      &lt;h1&gt;{data.title}&lt;/h1&gt;
+      &lt;div&gt;
+        {data.content}
+      &lt;/div&gt;
+    &lt;/main&gt;
+  &lt;/&gt;;
+};
+
+export default BlogPage;
+</code></pre>
+<p>Maintenant... il ne reste plus qu&#x27;à y accéder !</p>
+<p>Mettons à jour la page index du blog :</p>
+<pre><code class="language-tsx">const BlogPages:React.FC&lt;BlogPagesProps&gt; = ({blogs}) =&gt; {
+  return &lt;&gt;&lt;h1&gt;Blog Posts&lt;/h1&gt;
+    {blogs.map((itm) =&gt; {
+      return &lt;&gt;&lt;a key={itm.id} href={&#x27;/blog/&#x27;+itm.id}&gt;{itm.title}&lt;/a&gt;&lt;br/&gt;&lt;/&gt;
+    })}
+  
+  &lt;/&gt;
+}
+</code></pre>
+<p>On teste et ... c&#x27;est très moche.</p>
+<p>On va essayer d&#x27;améliorer ça un peu avec tailwind</p>
+<p>1/ On rajoute le typography :
+yarn add @tailwindcss/typography</p></div></article></main></div><script id="__NEXT_DATA__" type="application/json">{"props":{"pageProps":{"data":{"id":"tutorial-next-js-creation-d-un-blog","title":"Tuto Next.JS + Tailwind : créer un blog","img":"blog.jpg","content":"\n\nJe commence par installer Next.JS. \n```cli\nnpx create-next-app nextjs-blog\n```\n\nJe crée un fichier tsconfig.json pour indiquer qu'on veut etre sous Typescript (et j'installe directement Typescript)\n\n```cli\ntouch tsconfig.json\nyarn add --dev typescript @types/react\n```\n\nEnsuite c'est parti pour installer et initialiser Tailwind :\n```cli\nnpm install -D tailwindcss@latest postcss@latest autoprefixer@latest\nnpx tailwindcss init -p\n```\n\nPuis j'édite le fichier globals.css pour inclure les fichiers de style de Tailwind.\n\n```css\n/* ./styles/globals.css */\n@tailwind base;\n@tailwind components;\n@tailwind utilities;\n```\n\n\nJ'aime bien changer les fichier index.js et app.js en .tsx (mais ça ne change pas grand chose)\n\nMaintenant que la base est posée, posons les bases de notre blog.\n\nLa première étape consiste à définir le type de l'article de blog, au sens Typescript. \nPour cela je crée un dossier shared/, à la racine, dans lequel je met un fichier types.d.ts qui va servir à contenir les différents types. Je vais supposer qu'on veut charger d'autres types de données que juste des articles de blog (mais je ne sais pas encore quoi à ce stade, donc j'en fais peut etre un peu trop). Néanmoins je crée un type de base pour mon contenu, que je spécialise pour l'article de blog.\n\n\n```ts\ninterface item {\n  id: string|number;\n  content: string;\n};\n\ninterface BlogPost extends item {\n  title: string;\n}\n```\n\nA présent je crée la page d'accueil du blog, en créant un fichier index.tsx, dans un dossier blog/ que je crée dans /pages. Ce fichier va servir à lister tous les articles de blog (quand il y en aura !)\n\n\n```tsx\n// pages/blog/index.tsx\n\ninterface BlogPagesProps {\n  blogs: Array\u003cBlogPost\u003e\n}\n\nconst BlogPages:React.FC\u003cBlogPagesProps\u003e = ({blog}) =\u003e {\n  return \u003c\u003eBlog Posts\u003c/\u003e\n}\nexport default BlogPages;\n```\n\nA présent, allons chercher le contenu que nous allons lister. Pour ça, je commence par créer un dossier content, dans le quel je mets pour le moment un dossier blog/ (une fois de plus, ça suppose que j'ai d'autre contenu)\n\nComment est-ce que ça fonctionne ? Dans une page on peut définir une fonction getStaticProps. Cette fonction sert pour le rendu côté serveur. Elle sert à récupérer toutes les données statiques qui utiles pour rendre la page. Typiquement si on voulait faire un appel à une base de données pour lister le contenu pertinent, c'est ici qu'on le ferait. Dans notre cas, nous allons lister tous les fichiers markdown (en .md) qui sont dans le dossier content/blog, et c'est ça qui nous servira de contenu. \n\nLe nom de fichier servira d'identifiant (de champ id), mais on veut pouvoir aussi définir un titre, qui servira dans la liste sur l'accueil du blog.  \n\nUn petit détail qui est sympa avec Markdown : on peut définir des (méta)données en entête, et les lire. Ca s'appelle le *front matter*. C'est typiquement avec ça qu'on va pouvoir dire qui est l'auteur, ou quelle est l'image qu'on veut mettre en avant. \n\nUne lib existe pour les lire : gray-matter\n\nAjouter gray-matter : yarn add gray-matter\n\nCréer les fonction de récupération des données :\n\n\nOn va créer une fonction de récupération générique, qui lit un dossier et qui retourne bah.. un type de contenu.\n\nOn va commencer par lister et lire tous les fichiers md qui sont dans un dossier donné:\n\n```ts\nasync function _getAllData\u003cT extends item\u003e(directory: string): Promise\u003cArray\u003cT\u003e\u003e {\n  // Get file names under folder\n  const fileNames = fs.readdirSync(directory);\n  return await Promise.all (fileNames.map(async fileName =\u003e {\n    // Remove \".md\" from file name to get id\n    const id = fileName.replace(/\\.md$/, '');\n\n    // Read markdown file as string\n    const fullPath = path.join(directory, fileName);\n    const fileContents = fs.readFileSync(fullPath, 'utf8');\n\n    // Use gray-matter to parse the post metadata section\n    const matterResult = matter(fileContents);\n\n    let content = matterResult.content;\n\n    return {\n      id,\n      ...matterResult.data,\n      content,\n    } as unknown as T;\n  }));\n\n}\n```\n\nAlors je crée une fonction \"factory\", qui me fabrique la fonction en fonction du répertoire injecté :\n\n```tsx\nexport function makeGetters\u003cT extends item\u003e (directory: string) {\n\n  return {\n    getAllData: async () =\u003e _getAllData\u003cT\u003e(directory),\n  };\n}\n```\nEn suite on crée la version spécifique pour le blog :\n\nOn crée un fichier /shares/blog.ts tout simple \n\n```ts\nimport path from 'path';\nimport { makeGetters } from './content';\n\nconst directory = path.join(process.cwd(), 'content/blog');\n\nexport default makeGetters\u003cBlogPost\u003e(directory);\n```\n\nMaintenant on référence cette page dans l'index du blog\n\n```tsx\nimport BlogData from '../../shared/blog';\n\nexport async function getStaticProps() {\n  const blogs = await BlogData.getAllData();\n\n  return {\n    props: {\n      blogs,\n    }\n  };\n}\n\ninterface BlogPagesProps {\n  blogs: Array\u003cBlogPost\u003e\n}\n\nconst BlogPages:React.FC\u003cBlogPagesProps\u003e = ({blogs}) =\u003e {\n  return \u003c\u003e\u003ch1\u003eBlog Posts\u003c/h1\u003e\n    {blogs.map((itm) =\u003e {\n      return \u003c\u003e\u003ca key={itm.id}\u003e{itm.title}\u003c/a\u003e\u003cbr/\u003e\u003c/\u003e\n    })}\n  \n  \u003c/\u003e\n}\n\n\n```\n\nEt on teste : wundershön \n\n\nEt du coup maintenant on va aller créer la page qui va servir à faire les articles de blog eux mêmes \n\nPour ça on crée un fichier [id].tsx dans le dossier pages/blog\n\nEn suite on fait la fonction qui récupère les données statiques en fonction de l'id\n\nAutrement dit cette fois ci au lieu de récupérer tous les fichiers on récupère le seul fichier dont l'id est dans le slug, le chemin.\n\n\n```ts\nasync function _getItemData\u003cT extends item\u003e (directory: string, id: string, extended?: boolean): Promise\u003cT\u003e {\n\n  const fullPath = path.join(directory, `${id}.md`);\n  const fileContents = fs.readFileSync(fullPath, 'utf8');\n\n  // Use gray-matter to parse the post metadata section\n  const matterResult = matter(fileContents);\n  let content = matterResult.content;\n\n  return {\n    id,\n    ...matterResult.data,\n    content,\n  } as unknown as T;\n}\n\n/* *** */\n\nexport function makeGetters\u003cT extends item\u003e (directory: string) {\n\n  return {\n    getItemData: async (id: string) =\u003e _getItemData\u003cT\u003e(directory, id),\n    getAllData: async () =\u003e _getAllData\u003cT\u003e(directory),\n  };\n\n}\n```\n\nEnsuite on définit dans types un paramètre\n\n```ts\ninterface StaticRouteProps {\n  params: {\n    id: string;\n  };\n}\n```\n\nEt on crée le get static props de la page :\n\n```tsx\n\ninterface PageProps {\n  data: BlogPost;\n}\n\nexport async function getStaticProps({params}:StaticRouteProps) {\n  const data = await BlogData.getItemData(params.id);\n  return {\n    props: {\n      data,\n    }\n  };\n}\n\n```\n\nIci il y a une petite particularité. Dans la mesure ou c'est un chemin dynamique, on a besoin de savoir quels sont tous les contenus qu'il faut générer. Pour ça on a une fontion \"getStaticPaths\" qui en gros liste tous les contenus\n\nOn retourne du coup dans content :\n\n```ts\nconst _getAllIds = (directory: string) =\u003e {\n  const fileNames = fs.readdirSync(directory);\n\n  return fileNames.map(fileName =\u003e {\n    return {\n      params: {\n        id: fileName.replace(/\\.md$/, '')\n      }\n    };\n  });\n};\n\n/***/\n\nexport function makeGetters\u003cT extends item\u003e (directory: string) {\n\n  return {\n    getAllIds: () =\u003e _getAllIds(directory),\n    getItemData: async (id: string) =\u003e _getItemData\u003cT\u003e(directory, id),\n    getAllData: async () =\u003e _getAllData\u003cT\u003e(directory),\n  };\n\n}\n```\n\nA présent dans le blog on définit la fonction getStaticPaths \n\n```ts\nexport async function getStaticPaths() {\n  const paths = BlogData.getAllIds();\n  return {\n    paths,\n    fallback: false\n  };\n}\n```\n\nA présent tout est prêt pour faire la page :\n\nOn commence par importer Head, tout en haut : \n```ts\nimport Head from 'next/head';\n```\n\nPuis on crée la fin de la page :\n\n```tsx\ninterface BlogPageProps {\n  data: BlogPost;\n}\n\nconst BlogPage: React.FC\u003cBlogPageProps\u003e = ({data}) =\u003e {\n\n  return \u003c\u003e\n    \u003cHead\u003e \u003ctitle\u003e {data.title} \u003c/title\u003e\u003c/Head\u003e\n    \u003cmain\u003e\n      \u003ch1\u003e{data.title}\u003c/h1\u003e\n      \u003cdiv\u003e\n        {data.content}\n      \u003c/div\u003e\n    \u003c/main\u003e\n  \u003c/\u003e;\n};\n\nexport default BlogPage;\n```\n\nMaintenant... il ne reste plus qu'à y accéder !\n\nMettons à jour la page index du blog :\n\n```tsx\nconst BlogPages:React.FC\u003cBlogPagesProps\u003e = ({blogs}) =\u003e {\n  return \u003c\u003e\u003ch1\u003eBlog Posts\u003c/h1\u003e\n    {blogs.map((itm) =\u003e {\n      return \u003c\u003e\u003ca key={itm.id} href={'/blog/'+itm.id}\u003e{itm.title}\u003c/a\u003e\u003cbr/\u003e\u003c/\u003e\n    })}\n  \n  \u003c/\u003e\n}\n```\n\n\nOn teste et ... c'est très moche.\n\nOn va essayer d'améliorer ça un peu avec tailwind \n\n1/ On rajoute le typography :\nyarn add @tailwindcss/typography\n"}},"__N_SSG":true},"page":"/blog/[id]","query":{"id":"tutorial-next-js-creation-d-un-blog"},"buildId":"BvabygPFiq2zXBk2h_UWC","runtimeConfig":{},"isFallback":false,"gsp":true}</script><script nomodule="" src="/_next/static/chunks/polyfills-8683bd742a84c1edd48c.js"></script><script src="/_next/static/chunks/webpack-4639e6317c041bf9c5d6.js" async=""></script><script src="/_next/static/chunks/framework-61a2b52ccabc94aeb28a.js" async=""></script><script src="/_next/static/chunks/597-65afaab61dfaa9c5bb4f.js" async=""></script><script src="/_next/static/chunks/778-0412e99d908278ef4e9a.js" async=""></script><script src="/_next/static/chunks/main-9ca82ec4d4aca520c43d.js" async=""></script><script src="/_next/static/chunks/pages/_app-4011f388381f4f6185a3.js" async=""></script><script src="/_next/static/chunks/612-470bcdda2e89b4577197.js" async=""></script><script src="/_next/static/chunks/pages/blog/%5Bid%5D-6b719249f0317348990a.js" async=""></script><script src="/_next/static/BvabygPFiq2zXBk2h_UWC/_buildManifest.js" async=""></script><script src="/_next/static/BvabygPFiq2zXBk2h_UWC/_ssgManifest.js" async=""></script></body></html>

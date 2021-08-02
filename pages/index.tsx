@@ -1,7 +1,24 @@
 import Head from 'next/head'
+import { useEffect } from 'react';
+import { useState } from 'react';
 import styles from '../styles/Home.module.css'
 
+const items = [
+  'en React',
+  'en NextJs',
+  'en TypeScript',
+  'en Javascript'
+]
+
 export default function Home() {
+
+  const [current, setCurrent] = useState(0);
+
+  useEffect(() => {
+    setTimeout(() => setCurrent((current + 1) % items.length), 5000);
+  }, [current])
+  
+
   return (
     <div className={styles.container}>
       <Head>
@@ -10,18 +27,18 @@ export default function Home() {
       </Head>
 
       <main className={styles.main}>
-        <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
+        <h1 id="rotate-title" className={styles.title}>
+          S'apprendre à coder<br/>
+          {items.map((item, index) => <strong className={(index == current) ? 'is-visible' : 'is-hidden'}
+            style={{
+              display: (index == current) ? 'flex' : 'none'
+          }} key={index}> {item} </strong>)}
         </h1>
 
-        <p className={styles.description}>
-          Get started by editing{' '}
-          <code className={styles.code}>pages/index.js</code>
-        </p>
 
         <div className={styles.grid}>
           <a href="https://nextjs.org/docs" className={styles.card}>
-            <h3>Documentation &rarr;</h3>
+            <h3>Blog &rarr;</h3>
             <p>Find in-depth information about Next.js features and API.</p>
           </a>
 
