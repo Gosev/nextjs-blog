@@ -1,6 +1,9 @@
 interface item {
   id: string|number;
   content: string;
+
+
+
   enabled?: boolean;
   tags?: Array<string>;
 };
@@ -8,6 +11,9 @@ interface item {
 interface BlogPost extends item {
   title: string;
   img?: string;
+  credits?: string;
+  video?: string;
+  date?: string;
 }
 
 interface StaticRouteProps {

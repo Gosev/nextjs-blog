@@ -22,7 +22,7 @@ export default function Home() {
   return (
     <div className={styles.container}>
       <Head>
-        <title>Create Next App</title>
+        <title>Kodaps - Accueil</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
@@ -32,11 +32,11 @@ export default function Home() {
           {items.map((item, index) => <strong className={(index == current) ? 'is-visible' : 'is-hidden'}
             style={{
               display: (index == current) ? 'flex' : 'none'
-          }} key={index}> {item} </strong>)}
+          }} key={item}> {item} </strong>)}
         </h1>
 
 
-        <div className={styles.grid}>
+        { false && <div className={styles.grid}>
           <a href="https://nextjs.org/docs" className={styles.card}>
             <h3>Blog &rarr;</h3>
             <p>Find in-depth information about Next.js features and API.</p>
@@ -64,7 +64,7 @@ export default function Home() {
               Instantly deploy your Next.js site to a public URL with Vercel.
             </p>
           </a>
-        </div>
+        </div>}
       </main>
 
       <footer className={styles.footer}>

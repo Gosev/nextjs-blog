@@ -1,10 +1,12 @@
 
 import BlogData from '../../shared/blog';
 import Image from 'next/image';
+import React from 'react';
 
 export async function getStaticProps() {
-  const blogs = await BlogData.getAllData();
+  const _blogs = await BlogData.getAllData();
 
+  const blogs = _blogs.sort((a,b) => ((a.date || '') < (b.date || '')) ? 1 : -1);
   return {
     props: {
       blogs,
@@ -23,7 +25,7 @@ const BlogPages:React.FC<BlogPagesProps> = ({blogs}) => {
     <h1 className='w-full text-center font-bold text-6xl py-4 font-display'>Le Blog</h1>
 
     {blogs.map((itm) => {
-      return <>{(itm.enabled !== false) && <div className='w-1/2 p-12'>
+      return <React.Fragment key={itm.id}>{(itm.enabled !== false) && <div className='w-1/2 p-12'>
         <Image 
             width={1920}
             height={1080}
@@ -31,7 +33,7 @@ const BlogPages:React.FC<BlogPagesProps> = ({blogs}) => {
             src={`/blog/${itm.img}`} 
             className="w-full" />
         <a key={itm.id} href={'/blog/'+itm.id}>{itm.title}</a>
-      </div>}</>
+      </div>}</React.Fragment>
     })}
   
   </div>

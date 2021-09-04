@@ -1,6 +1,6 @@
 ---
 title: "Tutorial Next.JS +  : Effet de Zoom style medium sur l'image principale"
-img: blog.jpg
+img: jonathan-knepper-d2wuqguRzZ0-unsplash.jpg
 ideesTitre:
   - Comment faire une effet dézoom type Medium 
   - Tuto Next JS : Rendre vos images plus funky avec un effet de Zoom type Gatsby 

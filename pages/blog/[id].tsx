@@ -1,5 +1,6 @@
 import Head from 'next/head';
 import { CSSProperties, useEffect, useState } from 'react';
+import YouTubeEmbed from '../../components/YouTubeEmbed';
 const ReactMarkdown = require('react-markdown');
 
 import BlogData from '../../shared/blog';
@@ -79,7 +80,9 @@ const BlogPage: React.FC<BlogPageProps> = ({data}) => {
     <main>
       <article className="prose lg:prose-xl mx-auto mt-12 font-display">
        <h1>{data.title}</h1>
-       {data.img && <div style={parent}>
+
+       {data.video ? <YouTubeEmbed embedId={data.video} /> :
+       <>{data.img && <div style={parent}>
           <img
             src={`/blog/${img}.lqip.jpg`}
             style={{...lqip, opacity: imageLoaded? 0: 100 }}
@@ -90,7 +93,11 @@ const BlogPage: React.FC<BlogPageProps> = ({data}) => {
             src={imgurl}
             onLoad={() => setImageLoaded(true)}
           />
-        </div>}
+
+          
+                </div>}</>}
+                {data.credits ? <div className="text-dark opacity-25 w-100 font-light text-center" dangerouslySetInnerHTML={{__html: data.credits}} />
+          : <div> No credits</div>}
         <div className="relative block pt-8 font-body">
         <ReactMarkdown>{data.content}</ReactMarkdown>
         </div>

@@ -1,6 +1,7 @@
 ---
 title: Le choix d'un framework de blog
 img: framework.jpg
+date: "2021-04-01"
 ---
 Le site de blog Medium a beaucoup de qualités. J’adore l'ergonomie de son interface d'écriture. Malheureusement le site n'est pas fait pour du contenu francophone. J’ai un blog anglophone sur Medium, mais pas de blog francophone. Je me dis que c’est l’occasion de tester des framework de génération de site statique que je ne connaissais pas, pour voir s'il y a mieux que Next.Js (que je considère meilleur que Gatsby, j'expliquerai pourquoi dans un autre article). 
 

@@ -1,6 +1,7 @@
 ---
 title: "Tuto Next.JS + Tailwind : créer un blog"
 img: blog.jpg
+date: "2021-03-01"
 ---
 
 
