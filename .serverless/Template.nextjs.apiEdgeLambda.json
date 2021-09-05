@@ -1,6 +1,6 @@
 {
   "name": "kodaps-fr-website-prod",
-  "hash": "W6sgfeHfy3G8hG+izx0ZSg7gNTVSxPxWUFsZns5VLH8=",
+  "hash": "EcuabF9URPa/Bm+RwXuKBvGOepZDnfOiL8ge90Fw8bs=",
   "description": "API Lambda@Edge for Next CloudFront distribution",
   "memory": 512,
   "timeout": 10,
