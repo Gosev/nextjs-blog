@@ -2,6 +2,7 @@
 title: Quatre raisons pour lesquelles j'adore coder
 img: sinclair-zx81.jpg
 date: "2021-09-05"
+video: 0IUh0SjmdQ8
 ---
 
 J'ai commencé à coder quand j'avais 10 ans. Mon grand-père m'a donné un ZX81 avec 1 kilo-octet de RAM. Il se branchait sur la télévision, et la vitesse d'horloge de l'unité centrale était calibré sur la fréquence de rafraîchissement de la télévision.

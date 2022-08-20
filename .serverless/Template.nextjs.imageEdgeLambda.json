@@ -1,13 +1,13 @@
 {
   "name": "kodaps-fr-website-prod",
-  "hash": "UKRxPOmTNNN7aL2EaGduBxhAzEm929JTCLrsTjaqACk=",
+  "hash": "EylYIhJSebGHMPxRGxmzR+0eL8HP0HozazHvS2zMYaU=",
   "description": "Image Lambda@Edge for Next CloudFront distribution",
   "memory": 512,
   "timeout": 10,
   "code": "/Users/gosev/REPOS/KODAPS/nextjs-blog/.serverless_nextjs/image-lambda",
   "shims": [],
   "handler": "index.handler",
-  "runtime": "nodejs12.x",
+  "runtime": "nodejs14.x",
   "env": {},
   "role": {
     "arn": "arn:aws:iam::619522337399:role/9yhqlb9-08ied4w"

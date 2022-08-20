@@ -44,8 +44,16 @@
             "PUT",
             "PATCH"
           ],
+          "forward": {
+            "headers": [
+              "Authorization",
+              "Host"
+            ],
+            "cookies": "all",
+            "queryString": true
+          },
           "lambda@edge": {
-            "origin-request": "arn:aws:lambda:us-east-1:619522337399:function:kodaps-fr-website-prod:97"
+            "origin-request": "arn:aws:lambda:us-east-1:619522337399:function:kodaps-fr-website-prod:154"
           }
         },
         "_next/image*": {
@@ -67,7 +75,7 @@
             ]
           },
           "lambda@edge": {
-            "origin-request": "arn:aws:lambda:us-east-1:619522337399:function:kodaps-fr-website-prod:99"
+            "origin-request": "arn:aws:lambda:us-east-1:619522337399:function:kodaps-fr-website-prod:156"
           }
         },
         "_next/data/*": {
@@ -78,9 +86,17 @@
             "HEAD",
             "GET"
           ],
+          "forward": {
+            "cookies": "all",
+            "headers": [
+              "Authorization",
+              "Host"
+            ],
+            "queryString": true
+          },
           "lambda@edge": {
-            "origin-response": "arn:aws:lambda:us-east-1:619522337399:function:kodaps-fr-website-prod:101",
-            "origin-request": "arn:aws:lambda:us-east-1:619522337399:function:kodaps-fr-website-prod:101"
+            "origin-request": "arn:aws:lambda:us-east-1:619522337399:function:kodaps-fr-website-prod:158",
+            "origin-response": "arn:aws:lambda:us-east-1:619522337399:function:kodaps-fr-website-prod:158"
           }
         }
       }
@@ -92,6 +108,10 @@
     "defaultTTL": 0,
     "maxTTL": 31536000,
     "forward": {
+      "headers": [
+        "Authorization",
+        "Host"
+      ],
       "cookies": "all",
       "queryString": true
     },
@@ -105,8 +125,8 @@
       "PATCH"
     ],
     "lambda@edge": {
-      "origin-request": "arn:aws:lambda:us-east-1:619522337399:function:kodaps-fr-website-prod:101",
-      "origin-response": "arn:aws:lambda:us-east-1:619522337399:function:kodaps-fr-website-prod:101"
+      "origin-request": "arn:aws:lambda:us-east-1:619522337399:function:kodaps-fr-website-prod:158",
+      "origin-response": "arn:aws:lambda:us-east-1:619522337399:function:kodaps-fr-website-prod:158"
     },
     "compress": true
   }

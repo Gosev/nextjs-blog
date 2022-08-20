@@ -18,6 +18,8 @@ interface BlogPagesProps {
   blogs: Array<BlogPost>
 }
 
+
+
 const BlogPages:React.FC<BlogPagesProps> = ({blogs}) => {
   
   return <div className='w-full flex flex-row flex-wrap justify-between max-w-3xl mx-auto'>

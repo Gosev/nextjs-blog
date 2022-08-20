@@ -1,13 +1,13 @@
 {
   "name": "kodaps-fr-website-prod",
-  "hash": "cHEfifOygEG8cCJZ0g4JqnKpHhNEr7jXKQr94Y65jyU=",
+  "hash": "uKewQ8SNtca3m0cXz7sr8mK+KbG6Z72vOZWdIymvmHc=",
   "description": "Default Lambda@Edge for Next CloudFront distribution",
   "memory": 512,
   "timeout": 10,
   "code": "/Users/gosev/REPOS/KODAPS/nextjs-blog/.serverless_nextjs/default-lambda",
   "shims": [],
   "handler": "index.handler",
-  "runtime": "nodejs12.x",
+  "runtime": "nodejs14.x",
   "env": {},
   "role": {
     "arn": "arn:aws:iam::619522337399:role/9yhqlb9-eyxhwei"

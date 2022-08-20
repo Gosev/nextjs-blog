@@ -1,11 +1,7 @@
 interface item {
   id: string|number;
   content: string;
-
-
-
   enabled?: boolean;
-  tags?: Array<string>;
 };
 
 interface BlogPost extends item {
@@ -14,10 +10,20 @@ interface BlogPost extends item {
   credits?: string;
   video?: string;
   date?: string;
+  tags?: Array<string>;
+
 }
 
 interface StaticRouteProps {
   params: {
     id: string;
   };
+}
+
+type NextPageWithLayout<T> = NextPage<T> & {
+  getLayout?: (page: ReactElement) => ReactNode
+}
+
+type AppPropsWithLayout = AppProps & {
+  Component: NextPageWithLayout
 }

@@ -2,6 +2,7 @@
 title: "C'est quoi Svelte ?"
 img: svelte_dissapear.jpg
 date: "2021-06-15"
+video: 5W5i5KhIeaQ
 ---
 
 Je me suis [lancé un défi](https://dev.to/gosev/defi-framework-ssr-next-vs-vs-nuxt-vs-sveltekit-454d) de créer un blog avec trois frameworks : Svelte/Sveltekit, Vue/Nuxt et React/Next, pour me donner un cas pratique et donc un angle d'attaque pour apprendre les frameworks. 

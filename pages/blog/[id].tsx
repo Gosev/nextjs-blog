@@ -97,7 +97,7 @@ const BlogPage: React.FC<BlogPageProps> = ({data}) => {
           
                 </div>}</>}
                 {data.credits ? <div className="text-dark opacity-25 w-100 font-light text-center" dangerouslySetInnerHTML={{__html: data.credits}} />
-          : <div> No credits</div>}
+          : <div></div>}
         <div className="relative block pt-8 font-body">
         <ReactMarkdown>{data.content}</ReactMarkdown>
         </div>

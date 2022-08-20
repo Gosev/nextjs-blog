@@ -6,9 +6,9 @@ name: nextjs
 stage: prod
 
 nextjs:
-  component: "@sls-next/serverless-component@3.1.0" # it is recommended you pin the latest stable version of serverless-next.js
+  component: "@sls-next/serverless-component@3.7.0" # it is recommended you pin the latest stable version of serverless-next.js
   inputs:
-    name: ${org}-${app}-${stage} # Results in "acme-prod-ecommerce-rest-api"
+    # name: ${org}-${app}-${stage} # Results in "acme-prod-ecommerce-rest-api"
     domain: ["www", "kodaps.fr"] # sub-domain defaults to www
     bucketRegion: us-east-1
     bucketName: com-kodaps-fr-lambda

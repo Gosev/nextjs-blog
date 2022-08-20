@@ -1,7 +1,12 @@
 const { colors,fontSize } = require('tailwindcss/defaultTheme')
 
 module.exports = {
-  purge: [],
+  future: {
+    removeDeprecatedGapUtilities: true,
+    purgeLayersByDefault: true,
+  },
+  purge: false,
+  //purge: [],
   darkMode: false, // or 'media' or 'class'
   theme: {
     extend: {},

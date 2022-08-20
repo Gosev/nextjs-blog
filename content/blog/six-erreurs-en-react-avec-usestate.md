@@ -2,6 +2,7 @@
 title: "6 erreurs de débutant en React (et comment les éviter)"
 img: kat-love-zncUDOR-Ie8-unsplash.jpg
 date: "2021-09-01"
+video: gX70XvkGXuw
 credits: Photo by <a href="https://unsplash.com/@katlove?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Kat Love</a> on <a href="https://unsplash.com/s/photos/despair?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a>
 ---
  En tant que manager avec quelques années d'expérience en développement, j'ai souvent des développeurs juniors ou des stagiaires qui viennent me voir pour essayer de comprendre pourquoi leur code ne se comporte pas comme ils s'y attendent. Lorsqu'ils codent en React, cela provient le plus souvent d'un manque de compréhension du comportement de useState. Voici donc cinq erreurs que j'ai vues au cours de l'apprentissage de React et particulièrement de useState.
@@ -12,8 +13,8 @@ C'est la première erreur commise par un développeur (très) junior qui n'avait
 ## L'état contient trop d'informations
 L'erreur suivante (par le même gars) était l'étape d'après, la suite de la précédente, et représentait un mouvement de balancier dans l'autre sens. Il était tellement déterminé à s'assurer que tout était stocké en toute sécurité qu'il a également inclus des valeurs calculées qui étaient simplement le résultat d'autres variables d'état. Bien sûr, s'il s'agissait simplement d'une question de code mal fagotté, il ne serait peut-être pas venu chercher de l'aide. Mais l'affichage ne se mettait à jour qu'une fois sur deux lorsqu'il cliquait. En regardant le code, j'ai vu qu'il faisait quelque chose comme ceci : 
 ```js
-si (condition) setScore(score + 1) ;
-si (score > 0) setButtonActive(true) ;
+if (condition) setScore(score + 1) ;
+if (score > 0) setButtonActive(true) ;
 ```
 Dans le code ci-dessus, le score n'a pas changé entre les deux lignes (parce que nous sommes dans la même trame de rendu - ou "frame"). Et la deuxième ligne stocke quelque chose qui peut être déduit de l'autre variable d'état. Et c'est pour ça que l'affichage ne se mettait pas mis à jour. "Je lui ai dit : "Tu n'as pas besoin de tout stocker, la logique que tu peux déduire des autres variables d'état n'a pas besoin d'être stockée".
 
@@ -22,17 +23,17 @@ Dans le code ci-dessus, le score n'a pas changé entre les deux lignes (parce qu
 A un autre endroit du code, le même gars avait écrit quelque chose qui ressemblait à ceci: 
 
 ```js
-si (condition) setScore(score + 1) ;
+if (condition) setScore(score + 1) ;
 // ..... quelques lignes plus loin 
-si (condition2) setScore(score + 1) ;
+if (condition2) setScore(score + 1) ;
 ```
 Ici de la même façon, le score n'a pas été changé entre les deux lignes, et ne s'incrémente au final qu'une seule fois, au mieux. 
 
 Pour corriger ceci, on peut passer une fonction à la fonction d'état  
 ```js
-si (condition) setScore((prev) => prev + 1) ;
+if (condition) setScore((prev) => prev + 1) ;
 // ..... quelques lignes plus loin 
-si (condition2) setScore((prev) => prev + 1) ;
+if (condition2) setScore((prev) => prev + 1) ;
 ```
 
 Ainsi la mise à jour de l'état s'applique sur la valeur en cours de l'état, et non sur la valeur initialement définie en début de l'appel de la fonction de rendu.
@@ -44,7 +45,7 @@ Il n'en était pas encore là dans son apprentissage, mais un jour il apprendra 
 Quelques jours plus tard, il était de retour. Il avait un formulaire où il était convaincu de tout faire correctement, et pourtant l'état était réinitialisé chaque fois qu'il entrait des données dans le formulaire HTML. Maintenant, à ce stade, je tiens à préciser qu'il s'agit d'une personne à la fois très brillante et très sympathique. Cependant, il venait de commencer à apprendre React, donc il faisait à peu près toutes les erreurs à faire, et je commençais à douter de la sagesse de lui faire développer en utilisant React. Mais c'était un stage, et il était venu pour apprendre. Et l'expérience n'est souvent que la somme des erreurs passées, donc selon cette norme... tout se passait très bien. 
 Il avait pris à cœur mes conseils sur le fait de recalculer des choses qui n'avaient pas besoin d'être stockées. Mais il avait été un peu trop enthousiaste à propos de tout cela. La conversation s'est déroulée comme suit :
 
- - Attendez, où se termine ce composant ? 
+ - Attendez, où commence ce composant ? 
  - Juste en haut du fichier, ici. 
  - Et où est-ce qu'il se termine ? Je ne peux pas trouver la fin.  
  - C'est ici, en bas du fichier. 

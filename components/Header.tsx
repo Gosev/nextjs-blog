@@ -13,24 +13,24 @@ export const Header: React.FC<Props> = (props: Props) => {
           </div>
         </Link>
         <div className="flex flex-row justify-items-end ">
-          <nav className="px-3 my-auto">Je suis...</nav>
+          {false && <nav className="px-3 my-auto">Je suis...</nav>}
           <nav className="px-3 my-auto">
             <Link href="/blog">Blog</Link>
           </nav>
-          {false && (
+          {false &&
             <nav className="px-3 my-auto">
               <Link href="/services">Services</Link>
             </nav>
-          )}
+          }
           <nav className="px-3 my-auto">
-            <Link href="/cours">Newsletter</Link>
+            <Link href="/newsletter">Newsletter</Link>
           </nav>
-          { false && <><nav className="px-3 my-auto">
+          <nav className="px-3 my-auto">
             <Link href="/cours">Cours</Link>
           </nav>
           <nav className="px-3 my-auto">
             <Link href="/livres">Livres</Link>
-          </nav></>}
+          </nav>
           <nav className="px-3 my-auto">
             <Link href="/contact">Contact</Link>
           </nav>
